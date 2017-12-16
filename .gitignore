@@ -22,4 +22,4 @@
 /cache
 /data
 
-account.conf
+*.conf
