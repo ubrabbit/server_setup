@@ -95,13 +95,13 @@ get_image_name()
     default_name=${image_name}
     case ${image_name} in
         "mongo")
-            image_name="mongo_deb"
+            image_name="mongo_image"
             ;;
         "redis")
-            image_name="redis_deb"
+            image_name="redis_image"
             ;;
         "mysql")
-            image_name="mysql_deb"
+            image_name="mysql_image"
             ;;
         *)
             echo "error image_name:  "${image_name}
