@@ -23,7 +23,7 @@ output_step "docker run_cmd:  "${CMD}
 cd docker
 for cmd in ${CMD};
 do
-    if [ "${cmd}" == "start" ];
+    if [ "${cmd}" = "start" ];
     then
         output_step "start docker"
         sudo sh install.sh
