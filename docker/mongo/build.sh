@@ -18,5 +18,11 @@ rsync -avzrl --delete ${PKG_VERSION}/ ${LOCAL_BUILD_DIR}
 
 #进入打包目录开始打包
 cd ${LOCAL_BUILD_DIR}
-sudo docker build -t "mongo_deb:3.6" .
+sudo docker build -t "mongodb_deb:3.6" .
+cd -
+
+#打包 mongos
+rsync -avzrl --delete mongos/ ${LOCAL_BUILD_DIR}
+cd ${LOCAL_BUILD_DIR}
+sudo docker build -t "mongos_deb:3.6" .
 cd -

@@ -19,14 +19,10 @@ do
     cd ${CUR_PWD}/${pkg}
     check_error_exit
 
-    SCRIPT_LIST="start.sh stop.sh"
-    for file in ${SCRIPT_LIST};
-    do
-        if [ -f ${file} ];
-        then
-            \cp -f ${file} ${PKG_RUN_DIR}/ >/dev/null 2>&1
-        fi
-    done
+    \cp -f *.sh ${PKG_RUN_DIR}/ >/dev/null 2>&1
+    if [ "${pkg}" = "mongo" ];then
+        rsync -avzrl --delete shard/ ${PKG_RUN_DIR}/shard/
+    fi
 
     cd -
 done

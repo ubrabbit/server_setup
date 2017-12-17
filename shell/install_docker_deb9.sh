@@ -32,6 +32,8 @@ output_step "开始安装"
 sudo apt-get update
 sudo apt-get install docker-engine
 check_error_exit "安装 docker-engine 失败，请修改脚本尝试安装 docker.io替代"
+sudo apt-get install docker-compose
+check_error_exit "安装 docker-compose 失败"
 echo "安装成功"
 sudo docker version
 

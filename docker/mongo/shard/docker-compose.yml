@@ -1,0 +1,79 @@
+version: '2'
+services:
+  mongorsln1:
+    container_name: mongors1n1
+    image: ${IMAGE_FROM}
+    command: mongod --shardsvr --bind_ip_all --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 127.0.0.1:37001:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/data_shard_1:/data/db
+  mongors1n2:
+    container_name: mongors1n2
+    image: ${IMAGE_FROM}
+    command: mongod --shardsvr --bind_ip_all --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 127.0.0.1:37002:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/data_shard_2:/data/db
+  mongors1n3:
+    container_name: mongors1n3
+    image: ${IMAGE_FROM}
+    command: mongod --shardsvr --bind_ip_all --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 127.0.0.1:37003:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/data_shard_3:/data/db
+
+  mongocfg1:
+    container_name: mongocfg1
+    image: ${IMAGE_FROM}
+    command: mongod --configsvr --bind_ip_all --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/config_shard_1:/data/db
+  mongocfg2:
+    container_name: mongocfg2
+    image: ${IMAGE_FROM}
+    command: mongod --configsvr --bind_ip_all --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/config_shard_2:/data/db
+
+
+  mongos1:
+    container_name: mongos1
+    image: ${IMAGE_FROM}
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+    command: mongos --bind_ip_all --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017 --port 27017
+    ports:
+      - 127.0.0.1:37017:27017
+    expose:
+      - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
