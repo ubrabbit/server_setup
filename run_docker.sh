@@ -26,10 +26,10 @@ do
     if [ "${cmd}" = "start" ];
     then
         output_step "start docker"
-        sudo sh install.sh
-        sudo sh start.sh
+        sh install.sh
+        sh start.sh
     else
         output_step "stop docker"
-        sudo sh stop.sh
+        sh stop.sh
     fi
 done

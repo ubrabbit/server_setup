@@ -9,6 +9,7 @@ PARENT_PWD=`echo "$(dirname ${CUR_PWD})"`
 . ${PARENT_PWD}/common.sh
 
 IMAGE=`get_image_name "mongo"`
+echo "Use Image:  "${IMAGE}
 DATA_ROOT="${DATA_DIR}/mongo/shard"
 mkdir -p ${DATA_ROOT}
 python format_shard.py ${DATA_ROOT} ${IMAGE}
