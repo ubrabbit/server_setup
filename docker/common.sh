@@ -103,6 +103,18 @@ get_image_name()
         "mysql")
             image_name="mysql_image"
             ;;
+        "nginx")
+            image_name="nginx_image"
+            ;;
+        "django")
+            image_name="django-py2_image"
+            ;;
+        "django-py2")
+            image_name="django-py2_image"
+            ;;
+        "django-py3")
+            image_name="django-py3_image"
+            ;;
         *)
             echo "error image_name:  "${image_name}
             exit 2
@@ -110,12 +122,7 @@ get_image_name()
     esac
 
     IMAGE=`read_config "${image_name}"`
-    if [ -z "${IMAGE}" ];then
-        RUN_NAME="${default_name}"
-    else
-        RUN_NAME=`make_runname "${IMAGE}"`
-    fi
-    echo "${RUN_NAME}"
+    echo "${IMAGE}"
 }
 
 #docker 主目录

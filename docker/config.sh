@@ -12,7 +12,7 @@ chmod 777 ${CUR_PWD}/*.sh
 
 # config start -----------------------------------------------------------------
 #所有产品
-PKG_LIST="mysql mongo redis"
+PKG_LIST=`read_config "packages"`
 
 rm -rf ${CONFIG_DIR}/*.conf >/dev/null 2>&1
 python config/format_config.py "${RUN_DIR}" "${CUR_PWD}/config" "${CONFIG_DIR}"

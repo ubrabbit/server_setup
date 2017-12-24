@@ -1,0 +1,8 @@
+#docker 帐号
+account = ubrabbit
+
+#docker 密码
+password = 11111111
+
+#mysql 密码
+mysql_password = 11111111
