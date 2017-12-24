@@ -8,7 +8,7 @@ LISTEN_PORT=`read_config "mongo_port"`
 LISTEN_ADDRESS="${LISTEN_IP}:${LISTEN_PORT}:27017"
 
 USE_SHARD=`read_config "mongo_shard"`
-if [ ${USE_SHARD} = "1" ];then
+if [ "${USE_SHARD}" = "1" ];then
     echo "mongo use shard"
     cd shard
     chmod -R 777 *.sh

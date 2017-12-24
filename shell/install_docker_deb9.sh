@@ -3,6 +3,18 @@
 . ./public.sh
 
 
+REQUIRE_LIST="sudo apt-transport-https"
+for pkg in ${REQUIRE_LIST};
+do
+    dpkg -l ${pkg} >/dev/null 2>&1
+    RESULT=$?
+    if [ ${RESULT} -ne 0 ]; then
+        output_step "安装依赖包 "${pkg}
+        apt-get update
+        apt-get install ${pkg}
+    fi
+done
+
 output_step "删除机器上老旧的仓库"
 sudo apt-get purge lxc-docker*
 sudo apt-get purge docker.io*
