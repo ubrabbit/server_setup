@@ -60,6 +60,19 @@ read_config()
     return 0
 }
 
+read_build_name(){
+    pkg=$1
+    filename="${pkg}.conf"
+    file_path="${CONFIG_DIR}/${filename}"
+    if [ ! -f "${file_path}" ] ;then
+        echo "error_build_name"
+        exit 2
+    fi
+    value=`cat ${file_path} | grep -w 'build' | cut -d '=' -f 2 | sed s/[[:space:]]//g | awk '{print $0}'`
+    echo "${value}"
+    exit 0
+}
+
 read_account()
 {
     acct_file="${CONFIG_DIR}/account.conf"

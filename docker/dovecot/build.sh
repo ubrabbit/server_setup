@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#https://github.com/docker-library/redis.git
+. ./common.sh
 
 DOCKER_DIR=$1
 if [ -z "${DOCKER_DIR}" ];then
@@ -13,10 +13,12 @@ echo "docker dir:  "${DOCKER_DIR}
 LOCAL_BUILD_DIR="${DOCKER_DIR}/temp/dovecot/"
 mkdir -p ${LOCAL_BUILD_DIR}
 #同步打包文件
-PKG_VERSION="debian9"
-rsync -avzrl --delete ${PKG_VERSION}/ ${LOCAL_BUILD_DIR}
+rsync -avzrl --delete "build/" ${LOCAL_BUILD_DIR}
+
+BuildName=`read_build_name "dovecot"`
+check_error_exit "read_build_name error"
 
 #进入打包目录开始打包
 cd ${LOCAL_BUILD_DIR}
-sudo docker build -t "dovecot_deb:2.3.0" .
+sudo docker build -t "${BuildName}" .
 cd -

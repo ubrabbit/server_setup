@@ -2,6 +2,8 @@
 
 #https://github.com/docker-library/redis.git
 
+. ./common.sh
+
 DOCKER_DIR=$1
 if [ -z "${DOCKER_DIR}" ];then
         echo "invalid docker_dir:  "${DOCKER_DIR}
@@ -13,10 +15,12 @@ echo "docker dir:  "${DOCKER_DIR}
 LOCAL_BUILD_DIR="${DOCKER_DIR}/temp/redis/"
 mkdir -p ${LOCAL_BUILD_DIR}
 #同步打包文件
-PKG_VERSION="debian8"
-rsync -avzrl --delete ${PKG_VERSION}/ ${LOCAL_BUILD_DIR}
+rsync -avzrl --delete "build/" ${LOCAL_BUILD_DIR}
+
+BuildName=`read_build_name "redis"`
+check_error_exit "read_build_name error"
 
 #进入打包目录开始打包
 cd ${LOCAL_BUILD_DIR}
-sudo docker build -t "redis_deb:4.0" .
+sudo docker build -t "${BuildName}" .
 cd -

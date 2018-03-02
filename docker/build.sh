@@ -14,6 +14,7 @@ do
     mkdir -p ${PKG_RUN_DIR}
     check_error_exit
 
+    \cp -f common.sh "${CUR_PWD}/${pkg}/"
     cd ${CUR_PWD}/${pkg}
     check_error_exit
 

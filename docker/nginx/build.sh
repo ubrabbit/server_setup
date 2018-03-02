@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#https://github.com/docker-library/redis.git
-
 . ./common.sh
 
 DOCKER_DIR=$1
@@ -12,12 +10,12 @@ fi
 echo "docker dir:  "${DOCKER_DIR}
 
 #创建打包目录
-LOCAL_BUILD_DIR="${DOCKER_DIR}/temp/rabbitmq/"
+LOCAL_BUILD_DIR="${DOCKER_DIR}/temp/nginx/"
 mkdir -p ${LOCAL_BUILD_DIR}
 #同步打包文件
 rsync -avzrl --delete "build/" ${LOCAL_BUILD_DIR}
 
-BuildName=`read_build_name "rabbitmq"`
+BuildName=`read_build_name "nginx"`
 check_error_exit "read_build_name error"
 
 #进入打包目录开始打包
