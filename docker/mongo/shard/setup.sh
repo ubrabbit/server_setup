@@ -6,9 +6,9 @@ chmod 777 *.sh
 CUR_PWD=`pwd`
 #父目录
 PARENT_PWD=`echo "$(dirname ${CUR_PWD})"`
-. ${PARENT_PWD}/common.sh
+. ${PARENT_PWD}/../common.sh
 
-IMAGE=`get_image_name "mongo"`
+IMAGE=`read_package_config "mongo" "image"`
 echo "Use Image:  "${IMAGE}
 DATA_ROOT="${DATA_DIR}/mongo/shard"
 mkdir -p ${DATA_ROOT}

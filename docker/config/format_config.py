@@ -2,7 +2,8 @@
 
 import argparse
 import os
-
+import os.path
+import shutil
 
 #初始化
 def init_argument_parser() :
@@ -56,7 +57,8 @@ def main( obj_args ) :
         config_path = obj_args.config_path
         save_path = obj_args.save_path
 
-        for name in ("config.conf","account.conf"):
+        SPECIAL_LIST=("account.conf",)
+        for name in SPECIAL_LIST:
                 config_file = os.path.join( config_path, name )
                 with open( config_file, "r" ) as fobj:
                         for line in fobj.readlines():
@@ -87,7 +89,20 @@ def main( obj_args ) :
                                 with open(config_save,"w+") as fobj_save:
                                         print "write config file %s"%config_save
                                         fobj_save.write( config_value )
-        #end with
+                #end with
+        #end for
+        for file in os.listdir( config_path ):
+                if os.path.isdir(file):
+                        continue
+                if file in SPECIAL_LIST:
+                        continue
+                if file.endswith(".conf_example"):
+                        continue
+                if not file.endswith(".conf"):
+                        continue
+                print "copy config file %s"%file
+                shutil.copy2("%s/%s"%(config_path,file),"%s/%s"%(save_path,file))
+        #end
 
 
 if __name__ == "__main__":

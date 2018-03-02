@@ -2,12 +2,12 @@
 
 . ./common.sh
 
-RUN_NAME=`get_image_name "mongo"`
-LISTEN_IP=`read_config "listen_ip"`
-LISTEN_PORT=`read_config "mongo_port"`
+RUN_NAME=`read_package_config "mongo" "image"`
+LISTEN_IP=`read_package_config "listen_ip"`
+LISTEN_PORT=`read_package_config "listen_port"`
 LISTEN_ADDRESS="${LISTEN_IP}:${LISTEN_PORT}:27017"
 
-USE_SHARD=`read_config "mongo_shard"`
+USE_SHARD=`read_package_config "mongo" "shard"`
 if [ "${USE_SHARD}" = "1" ];then
     echo "mongo use shard"
     cd shard

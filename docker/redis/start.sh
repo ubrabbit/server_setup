@@ -2,9 +2,9 @@
 
 . ./common.sh
 
-RUN_NAME=`get_image_name "redis"`
-LISTEN_IP=`read_config "listen_ip"`
-LISTEN_PORT=`read_config "redis_port"`
+RUN_NAME=`read_package_config "redis" "image"`
+LISTEN_IP=`read_package_config "redis" "listen_ip"`
+LISTEN_PORT=`read_package_config "redis" "listen_port"`
 LISTEN_ADDRESS="${LISTEN_IP}:${LISTEN_PORT}:6379"
 
 DATA_ROOT="${DATA_DIR}/redis"

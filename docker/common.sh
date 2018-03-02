@@ -28,6 +28,20 @@ check_create_folder()
     return 0
 }
 
+read_package_config(){
+    pkg=$1
+    key=$2
+    filename="${pkg}.conf"
+    file_path="${CONFIG_DIR}/${filename}"
+    if [ -z "${key}" ] || [ ! -f "${file_path}" ] ;then
+        echo `read_config $pkg`
+        exit $?
+    fi
+    value=`cat ${file_path} | grep -w ${key} | cut -d '=' -f 2 | sed s/[[:space:]]//g | awk '{print $0}'`
+    echo "${value}"
+    exit 0
+}
+
 read_config()
 {
     cfg_file=$1
@@ -87,42 +101,6 @@ stop_container()
         echo "stop "${line}" success"
     done
     echo "stop all "${tmp_pkg}" finish"
-}
-
-get_image_name()
-{
-    image_name=$1
-    default_name=${image_name}
-    case ${image_name} in
-        "mongo")
-            image_name="mongo_image"
-            ;;
-        "redis")
-            image_name="redis_image"
-            ;;
-        "mysql")
-            image_name="mysql_image"
-            ;;
-        "nginx")
-            image_name="nginx_image"
-            ;;
-        "django")
-            image_name="django-py2_image"
-            ;;
-        "django-py2")
-            image_name="django-py2_image"
-            ;;
-        "django-py3")
-            image_name="django-py3_image"
-            ;;
-        *)
-            echo "error image_name:  "${image_name}
-            exit 2
-            ;;
-    esac
-
-    IMAGE=`read_config "${image_name}"`
-    echo "${IMAGE}"
 }
 
 #docker 主目录

@@ -6,7 +6,7 @@ CUR_PWD=`pwd`
 PARENT_PWD=`echo "$(dirname ${CUR_PWD})"`
 . ${PARENT_PWD}/common.sh
 
-IMAGE=`get_image_name "mongo"`
+IMAGE=`read_package_config "mongo" "image"`
 DATA_ROOT="${DATA_DIR}/mongo/shard"
 mkdir -p ${DATA_ROOT}
 python format_shard.py ${DATA_ROOT} ${IMAGE}
