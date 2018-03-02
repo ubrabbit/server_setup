@@ -142,8 +142,10 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["docker-entrypoint.sh"]
 
+ADD docker-init.sh /docker-init.sh
+
 EXPOSE 4369 5671 5672 25672
-CMD ["rabbitmq-server"]
+CMD ["/docker-init.sh"]
 
 # rabbitma_management
 FROM rabbitmq:3.7-rc
