@@ -15,3 +15,8 @@ mkdir -p ${DATA_ROOT}
 python format_shard.py ${DATA_ROOT} ${IMAGE}
 
 docker-compose up
+result=$?
+if [ "${result}" != "0" ];then
+        echo "启动失败，尝试初始化后再启动"
+        ./setup.sh
+fi

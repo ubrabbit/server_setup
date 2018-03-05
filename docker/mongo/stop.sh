@@ -2,7 +2,7 @@
 
 . ./common.sh
 
-USE_SHARD=`read_config "mongo_shard"`
+USE_SHARD=`read_package_config "mongo" "shard"`
 if [ "${USE_SHARD}" = "1" ];then
     cd shard
     chmod -R 777 *.sh
