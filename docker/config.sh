@@ -6,7 +6,7 @@ get_all_packages(){
     path=$1
     cd ${path} && ls -l *.conf | grep -v "account.conf" | awk '{print $9}' | cut -d "." -f 1
     cd - >/dev/null
-    exit 0
+    return 0
 }
 
 #当前执行这个脚本的目录

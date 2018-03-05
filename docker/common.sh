@@ -12,6 +12,17 @@ check_error_exit()
     fi
 }
 
+# 输出错误提示
+check_error_notify()
+{
+    RESULT=$?
+    if [ ${RESULT} -ne 0 ]; then
+        echo "#[ERROR] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+        echo "#[ERROR] "$1
+        echo "#[ERROR] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+    fi
+}
+
 check_create_folder()
 {
     folder=$1
@@ -35,11 +46,11 @@ read_package_config(){
     file_path="${CONFIG_DIR}/${filename}"
     if [ -z "${key}" ] || [ ! -f "${file_path}" ] ;then
         echo `read_config $pkg`
-        exit $?
+        return $?
     fi
     value=`cat ${file_path} | grep -w ${key} | cut -d '=' -f 2 | sed s/[[:space:]]//g | awk '{print $0}'`
     echo "${value}"
-    exit 0
+    return 0
 }
 
 read_config()
@@ -48,7 +59,7 @@ read_config()
     file_path="${CONFIG_DIR}/${cfg_file}.conf"
     file_path2="${CONFIG_DIR}/${cfg_file}"
     if [ -z "${cfg_file}" ];then
-        echo "333333333333333333333"
+        echo "read_config but param is empty"
         return 1
     fi
 
@@ -66,11 +77,11 @@ read_build_name(){
     file_path="${CONFIG_DIR}/${filename}"
     if [ ! -f "${file_path}" ] ;then
         echo "error_build_name"
-        exit 2
+        return 2
     fi
     value=`cat ${file_path} | grep -w 'build' | cut -d '=' -f 2 | sed s/[[:space:]]//g | awk '{print $0}'`
     echo "${value}"
-    exit 0
+    return 0
 }
 
 read_account()
@@ -114,6 +125,26 @@ stop_container()
         echo "stop "${line}" success"
     done
     echo "stop all "${tmp_pkg}" finish"
+    return 0
+}
+
+login_account(){
+    #如果帐号存在，就登录
+    if [ ! -z "${ACCOUNT}" ];then
+        RETURN="0"
+        if [ "${LOGIN_SUCCESS}" = "0" ];then
+            echo "login "${ACCOUNT}
+            docker login -u "${ACCOUNT}" -p "${PASSWORD}"
+            check_error_notify "docker login failure"
+            RETURN=$?
+        fi
+        if [ "${RETURN}" = "0" ];then
+            LOGIN_SUCCESS="1"
+        fi
+        return ${RETURN}
+    fi
+    LOGIN_SUCCESS="0"
+    return 0
 }
 
 #docker 主目录
@@ -141,3 +172,4 @@ check_create_folder ${CONFIG_DIR}
 
 ACCOUNT=""
 PASSWORD=""
+LOGIN_SUCCESS="0"
