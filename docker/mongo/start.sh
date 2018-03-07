@@ -13,6 +13,12 @@ if [ "${USE_SHARD}" = "1" ];then
     cd shard
     chmod -R 777 *.sh
     ./start.sh
+    result=$?
+    if [ "${result}" != "0" ];then
+        echo "启动失败，尝试初始化后再启动"
+        ./setup.sh
+    fi
+
 else
     echo "mongo use normal"
 

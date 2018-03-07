@@ -6,7 +6,7 @@ chmod 777 *.sh
 CUR_PWD=`pwd`
 #父目录
 PARENT_PWD=`echo "$(dirname ${CUR_PWD})"`
-. ${PARENT_PWD}/../common.sh
+. ${PARENT_PWD}/common.sh
 
 IMAGE=`read_package_config "mongo" "image"`
 echo "Use Image:  "${IMAGE}
@@ -15,8 +15,3 @@ mkdir -p ${DATA_ROOT}
 python format_shard.py ${DATA_ROOT} ${IMAGE}
 
 docker-compose up
-result=$?
-if [ "${result}" != "0" ];then
-        echo "启动失败，尝试初始化后再启动"
-        ./setup.sh
-fi

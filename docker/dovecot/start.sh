@@ -18,7 +18,9 @@ DATA_ROOT="${DATA_DIR}/dovecot"
 mkdir -p ${DATA_ROOT}
 echo "RUN: "${RUN_NAME}"  DATA_ROOT:  "${DATA_ROOT}
 echo "LISTEN: "${LISTEN_ADDRESS}
-docker run -it -d -v "${DATA_ROOT}/mailbox":/data/mailbox \
+docker run -it -d \
+        -v "${DATA_ROOT}/mailbox":/data/mailbox \
+        -v "${DATA_ROOT}/config":/config/dovecot \
         -p ${LISTEN_ADDRESS1} -p ${LISTEN_ADDRESS2} \
         -p ${LISTEN_ADDRESS3} -p ${LISTEN_ADDRESS4} -p ${LISTEN_ADDRESS5} \
         -p ${LISTEN_ADDRESS6} -p ${LISTEN_ADDRESS7} -p ${LISTEN_ADDRESS8} \
