@@ -1,0 +1,63 @@
+version: '2'
+services:
+  dovecot-postfix:
+    container_name: mail-server
+    image: ${IMAGE_MAIN}
+    ports:
+      - "0.0.0.0:25:25"
+      - "0.0.0.0:465:465"
+      - "0.0.0.0:110:110"
+      - "0.0.0.0:143:143"
+      - "0.0.0.0:993:993"
+      - "0.0.0.0:995:995"
+    expose:
+      - "25"
+      - "465"
+      - "110"
+      - "143"
+      - "993"
+      - "995"
+    volumes:
+      - ${DATA_DIR}/dovecot/mailbox:/data/mailbox
+      - ${DATA_DIR}/postfix/queue:/var/spool/postfix
+      - ${DATA_DIR}/dovecot/config:/config/dovecot
+      - ${DATA_DIR}/postfix/config:/config/postfix
+    networks:
+      mail-service:
+        ipv4_address: 192.168.100.100
+        aliases:
+          - dovecot-postfix
+
+  mysql:
+    container_name: mail-mysql
+    image: ${IMAGE_MYSQL}
+    ports:
+      - "127.0.0.1:13306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - ${DATA_DIR}/mysql:/var/lib/mysql
+    networks:
+      mail-service:
+        ipv4_address: 192.168.100.101
+        aliases:
+          - mysql
+
+  redis:
+    container_name: mail-redis
+    image: ${IMAGE_REDIS}
+    ports:
+      - "127.0.0.1:16379:6379"
+    expose:
+      - "6379"
+    volumes:
+      - ${DATA_DIR}/redis:/data
+    networks:
+      mail-service:
+        ipv4_address: 192.168.100.102
+        aliases:
+          - redis
+
+networks:
+  mail-service:
+    external: true

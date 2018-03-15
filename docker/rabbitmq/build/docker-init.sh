@@ -7,6 +7,7 @@ HOSTNAME="rabbitmq"
 
 # Create Rabbitmq user
 ( sleep 3 ; \
+rabbitmqctl add_vhost ${HOSTNAME}
 rabbitmqctl add_user $RABBITMQ_USER $RABBITMQ_PASSWORD 2>/dev/null ; \
 rabbitmqctl set_user_tags $RABBITMQ_USER administrator ; \
 rabbitmqctl set_permissions -p ${HOSTNAME} $RABBITMQ_USER  ".*" ".*" ".*" ; \

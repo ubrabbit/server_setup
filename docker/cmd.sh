@@ -8,7 +8,8 @@ output_usage()
     echo "#[USAGE] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     echo "cmd.sh 1            docker container ls"
     echo "cmd.sh 2            docker images"
-    echo "cmd.sh 3            docker rmi"
+    echo "cmd.sh 4            docker exec -it"
+    echo "cmd.sh 4            docker rmi"
     echo "#[USAGE] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 }
 
@@ -22,6 +23,9 @@ case ${CMD} in
         CMD="images"
         ;;
     "3")
+        CMD="exec -it "$2" bash"
+        ;;
+    "4")
         CMD="rmi "$2
         ;;
     *)

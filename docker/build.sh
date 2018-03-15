@@ -28,8 +28,10 @@ default_build_pkg(){
     #进入打包目录开始打包
     cd ${LOCAL_BUILD_DIR}
     sudo docker build -t "${BuildName}" .
+    build_rlt=$?
+    echo "build command result:   "${build_rlt}
     cd -
-    return 0
+    return ${build_rlt}
 }
 
 PKG_NAME=$1
@@ -52,7 +54,7 @@ do
 
         chmod 777 *.sh
         ./build.sh ${pkg} ${DOCKER_DIR}
-        check_error_exit
+        check_error_exit "build ${pkg} failure"
 
         cd -
     else

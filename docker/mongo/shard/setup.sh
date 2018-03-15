@@ -14,4 +14,4 @@ DATA_ROOT="${DATA_DIR}/mongo/shard"
 mkdir -p ${DATA_ROOT}
 python format_shard.py ${DATA_ROOT} ${IMAGE}
 
-docker-compose up
+docker-compose up -d

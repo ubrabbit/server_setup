@@ -25,13 +25,20 @@ do
     ./start.sh ${pkg}
 
     docker container ls | grep ${BuildName} | awk '{print $1}' | xargs -I{} docker commit {} "${DockerName}"
-    check_error_exit "docker commit ${pkg} failure"
-    echo "docker commit ${pkg} success"
+    RESULT=$?
+    if [ ${RESULT} -ne 0 ]; then
+        error_notify "docker commit ${pkg} failure"
+        continue
+    fi
+    success_notify "docker commit ${pkg} success"
 
-    echo "push to docker hub"
+    success_notify "push to docker hub"
     docker push "${DockerName}"
-    check_error_exit "docker push ${pkg} failure"
-    echo "docker push ${pkg} success"
+    if [ ${RESULT} -ne 0 ]; then
+        error_notify "docker push ${pkg} failure"
+        continue
+    fi
+    success_notify "docker push ${pkg} success"
 
 done
 

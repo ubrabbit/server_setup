@@ -20,7 +20,7 @@ do
     check_error_exit
 
     chmod 777 *.sh
-    \cp -f *.sh ${PKG_RUN_DIR}/ >/dev/null 2>&1
+    rsync -avzrl --delete ./* ${PKG_RUN_DIR}/ >/dev/null 2>&1
     if [ "${pkg}" = "mongo" ];then
         rsync -avzrl --delete shard/ ${PKG_RUN_DIR}/shard/
     fi
