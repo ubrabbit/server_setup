@@ -22,11 +22,6 @@ done
 #同步打包文件
 rsync -avzrl --delete "build/" ${LOCAL_BUILD_DIR}
 
-#同步自定义初始化文件
-cp init/init.sql ${LOCAL_BUILD_DIR}
-cp init/table.sql ${LOCAL_BUILD_DIR}
-cp init/update.sql ${LOCAL_BUILD_DIR}
-
 BuildName=`read_build_name "mysql"`
 check_error_exit "read_build_name error"
 
