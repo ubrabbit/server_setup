@@ -1,3 +1,0 @@
-/*
-script for sql update
-*/

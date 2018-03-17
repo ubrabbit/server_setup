@@ -5,7 +5,7 @@
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
 smtp      inet  n       -       n       -       -       smtpd
-  -o content_filter=fsmtp:127.0.0.1:10027
+  -o content_filter=fsmtp:{EXTEND_SERVICE}:{POSTFIX_RECEIVE_PORT}
 
 #smtp      inet  n       -       n       -       1       postscreen
 #smtpd     pass  -       -       n       -       -       smtpd
@@ -62,7 +62,7 @@ fsmtp     unix  -       -       n       -       -       smtp
   -o smtp_generic_maps=
 
 # After-filter SMTP server
-127.0.0.1:10025 inet n  -       n       -        -      smtpd
+0.0.0.0:10025 inet n  -       n       -        -      smtpd
   -o smtpd_authorized_xforward_hosts=127.0.0.0/8
   -o smtpd_client_restrictions=
   -o smtpd_helo_restrictions=

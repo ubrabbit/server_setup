@@ -1,0 +1,5 @@
+hosts    = {MYSQL_HOST}:{MYSQL_PORT}
+user     = mail
+password = {MYSQL_PASSWORD}
+dbname   = mail
+query    = SELECT domain FROM tbl_domain WHERE domain='%s' AND disabled='-1'

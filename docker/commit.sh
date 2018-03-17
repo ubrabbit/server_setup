@@ -34,6 +34,7 @@ do
 
     success_notify "push to docker hub"
     docker push "${DockerName}"
+    RESULT=$?
     if [ ${RESULT} -ne 0 ]; then
         error_notify "docker push ${pkg} failure"
         continue
