@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# 设置host和初始账户
-RABBITMQ_USER="rabbitmq"
-RABBITMQ_PASSWORD="rabbitmq"
-HOSTNAME="rabbitmq"
-
 # Create Rabbitmq user
 ( sleep 3 ; \
 rabbitmqctl add_vhost ${HOSTNAME}

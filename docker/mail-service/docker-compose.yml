@@ -2,7 +2,7 @@ version: '2'
 services:
   dovecot-postfix:
     container_name: mail-server
-    image: ${IMAGE_MAIN}
+    image: {IMAGE_MAIN}
     ports:
       - "0.0.0.0:25:25"
       - "0.0.0.0:465:465"
@@ -10,6 +10,7 @@ services:
       - "0.0.0.0:143:143"
       - "0.0.0.0:993:993"
       - "0.0.0.0:995:995"
+      - "0.0.0.0:10025:10025"
     expose:
       - "25"
       - "465"
@@ -17,46 +18,78 @@ services:
       - "143"
       - "993"
       - "995"
+      - "10025"
     volumes:
-      - ${DATA_DIR}/dovecot/mailbox:/data/mailbox
-      - ${DATA_DIR}/postfix/queue:/var/spool/postfix
-      - ${DATA_DIR}/dovecot/config:/config/dovecot
-      - ${DATA_DIR}/postfix/config:/config/postfix
+      - {DATA_DIR}/dovecot/mailbox:/data/mailbox
+      - {DATA_DIR}/postfix/spool:/var/spool/postfix
+      - {DATA_DIR}/dovecot/config:/config/dovecot
+      - {DATA_DIR}/postfix/config:/config/postfix
     networks:
       mail-service:
         ipv4_address: 192.168.100.100
         aliases:
           - dovecot-postfix
+    environment:
+      - MYSQL_HOST={MYSQL_HOST}
+      - MYSQL_PORT={MYSQL_PORT}
+      - MYSQL_PASSWORD={MYSQL_PASSWORD}
+      - HOST_NAME={HOST_NAME}
+      - DOMAIN={DOMAIN}
+      - EXTEND_SERVICE={EXTEND_SERVICE}
+      - DOVECOT_AUTH_PORT={DOVECOT_AUTH_PORT}
+      - POSTFIX_FILTER_PORT={POSTFIX_FILTER_PORT}
+      - POSTFIX_RECEIVE_PORT={POSTFIX_RECEIVE_PORT}
 
   mysql:
     container_name: mail-mysql
-    image: ${IMAGE_MYSQL}
+    image: {IMAGE_MYSQL}
     ports:
       - "127.0.0.1:13306:3306"
     expose:
       - "3306"
     volumes:
-      - ${DATA_DIR}/mysql:/var/lib/mysql
+      - {DATA_DIR}/mysql:/var/lib/mysql
     networks:
       mail-service:
         ipv4_address: 192.168.100.101
         aliases:
           - mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD={MYSQL_PASSWORD}
 
   redis:
     container_name: mail-redis
-    image: ${IMAGE_REDIS}
+    image: {IMAGE_REDIS}
     ports:
       - "127.0.0.1:16379:6379"
     expose:
       - "6379"
     volumes:
-      - ${DATA_DIR}/redis:/data
+      - {DATA_DIR}/redis:/data
     networks:
       mail-service:
         ipv4_address: 192.168.100.102
         aliases:
           - redis
+
+  rabbitmq:
+    container_name: mail-rabbitmq
+    image: {IMAGE_RABBITMQ}
+    ports:
+      - "127.0.0.1:5672:5672"
+    expose:
+      - "5672"
+    volumes:
+      - {DATA_DIR}/rabbitmq:/var/lib/rabbitmq
+    networks:
+      mail-service:
+        ipv4_address: 192.168.100.103
+        aliases:
+          - rabbitmq
+    environment:
+      - HOSTNAME={RABBITMQ_HOSTNAME}
+      - RABBITMQ_USER={RABBITMQ_USER}
+      - RABBITMQ_PASSWORD={RABBITMQ_PASSWORD}
 
 networks:
   mail-service:

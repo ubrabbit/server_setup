@@ -31,4 +31,7 @@ docker run -it -d -v "${DATA_ROOT}":/var/lib/rabbitmq \
         -p ${LISTEN_ADDRESS3} -p ${LISTEN_ADDRESS4} \
         -p ${LISTEN_ADDRESS5} -p ${LISTEN_ADDRESS6} \
         --hostname rabbitmq \
+        -e "RABBITMQ_USER=rabbitmq" \
+        -e "RABBITMQ_PASSWORD=rabbitmq" \
+        -e "HOSTNAME=rabbitmq" \
         ${RUN_NAME} 2>&1

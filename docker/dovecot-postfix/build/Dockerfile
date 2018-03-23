@@ -104,6 +104,7 @@ COPY dovecot/dict-default.conf /usr/local/etc/dovecot/dict-default.conf
 
 COPY postfix/mysql ${POSTFIX_CONFIG_DIR}/mysql
 
+ADD docker-config.sh /docker-config.sh
 ADD docker-init.sh /docker-init.sh
 RUN chmod 777 /docker-init.sh && mkdir -p /etc/supervisor/conf.d
 COPY supervisord/supervisord.conf /etc/supervisor/supervisord.conf
