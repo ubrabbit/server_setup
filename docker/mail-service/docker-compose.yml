@@ -1,7 +1,7 @@
 version: '2'
 services:
   dovecot-postfix:
-    container_name: mail-server
+    container_name: mail-core
     image: {IMAGE_MAIN}
     ports:
       - "0.0.0.0:25:25"
@@ -20,10 +20,10 @@ services:
       - "995"
       - "10025"
     volumes:
-      - {DATA_DIR}/dovecot/mailbox:/data/mailbox
       - {DATA_DIR}/postfix/spool:/var/spool/postfix
       - {DATA_DIR}/dovecot/config:/config/dovecot
       - {DATA_DIR}/postfix/config:/config/postfix
+      - {DATA_DIR}/mailbox:/home/mailbox
     networks:
       mail-service:
         ipv4_address: 192.168.100.100
@@ -39,6 +39,9 @@ services:
       - DOVECOT_AUTH_PORT={DOVECOT_AUTH_PORT}
       - POSTFIX_FILTER_PORT={POSTFIX_FILTER_PORT}
       - POSTFIX_RECEIVE_PORT={POSTFIX_RECEIVE_PORT}
+    restart: always
+    depends_on:
+      - "mail-server"
 
   mysql:
     container_name: mail-mysql
@@ -56,6 +59,7 @@ services:
           - mysql
     environment:
       - MYSQL_ROOT_PASSWORD={MYSQL_PASSWORD}
+    restart: always
 
   redis:
     container_name: mail-redis
@@ -71,6 +75,7 @@ services:
         ipv4_address: 192.168.100.102
         aliases:
           - redis
+    restart: always
 
   rabbitmq:
     container_name: mail-rabbitmq
@@ -90,6 +95,42 @@ services:
       - HOSTNAME={RABBITMQ_HOSTNAME}
       - RABBITMQ_USER={RABBITMQ_USER}
       - RABBITMQ_PASSWORD={RABBITMQ_PASSWORD}
+    restart: always
+
+  mail-server:
+    container_name: mail-server
+    image: {IMAGE_MAIL_SERVER}
+    ports:
+      - "127.0.0.1:30001:30001"
+      - "127.0.0.1:30002:30002"
+      - "127.0.0.1:30003:30003"
+    expose:
+      - "30001"
+      - "30002"
+      - "30003"
+    volumes:
+      - {DATA_DIR}/mailbox:/usr/local/mail-server/data/mailbox
+    networks:
+      mail-service:
+        ipv4_address: 192.168.100.104
+        aliases:
+          - mail-server
+    environment:
+      - GATEWAY={GATEWAY}
+      - DOMAIN={DOMAIN}
+      - MYSQL_HOST={MYSQL_HOST}
+      - MYSQL_PORT={MYSQL_PORT}
+      - MYSQL_PASSWORD={MYSQL_PASSWORD}
+      - REDIS_HOST={REDIS_HOST}
+      - RABBITMQ_HOST={RABBITMQ_HOST}
+      - RABBITMQ_HOSTNAME={RABBITMQ_HOSTNAME}
+      - RABBITMQ_USER={RABBITMQ_USER}
+      - RABBITMQ_PASSWORD={RABBITMQ_PASSWORD}
+      - MAILBOX_PATH={DATA_DIR}/mailbox
+    depends_on:
+      - "mysql"
+      - "redis"
+      - "rabbitmq"
 
 networks:
   mail-service:

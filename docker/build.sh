@@ -2,6 +2,9 @@
 
 . ./config.sh
 
+#daocloud 加速器：  curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://e772e8f4.m.daocloud.io
+
+
 #默认打包函数
 default_build_pkg(){
     PACKAGE=$1

@@ -24,8 +24,8 @@ if [ -z "${MYSQL_PASSWORD}" ];then
     error_exit "'MYSQL_PASSWORD' ENV Not Exists"
 fi
 #主机名
-if [ -z "${HOST_NAME}" ];then
-    error_exit "'HOST_NAME' ENV Not Exists"
+if [ -z "${HOSTNAME}" ];then
+    error_exit "'HOSTNAME' ENV Not Exists"
 fi
 #主域名
 if [ -z "${DOMAIN}" ];then
@@ -54,7 +54,7 @@ sed -i "s/{MYSQL_PASSWORD}/${MYSQL_PASSWORD}/g" `grep -rl {MYSQL_PASSWORD} ${POS
 
 for file in main.cf master.cf;
 do
-    sed -i "s/{HOST_NAME}/${HOST_NAME}/g" `grep -rl {HOST_NAME} ${POSTFIX_CONFIG_DIR}/${file}`
+    sed -i "s/{HOSTNAME}/${HOSTNAME}/g" `grep -rl {HOSTNAME} ${POSTFIX_CONFIG_DIR}/${file}`
     sed -i "s/{DOMAIN}/${DOMAIN}/g" `grep -rl {DOMAIN} ${POSTFIX_CONFIG_DIR}/${file}`
     sed -i "s/{EXTEND_SERVICE}/${EXTEND_SERVICE}/g" `grep -rl {EXTEND_SERVICE} ${POSTFIX_CONFIG_DIR}/${file}`
     sed -i "s/{POSTFIX_FILTER_PORT}/${POSTFIX_FILTER_PORT}/g" `grep -rl {POSTFIX_FILTER_PORT} ${POSTFIX_CONFIG_DIR}/${file}`

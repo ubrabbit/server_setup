@@ -4,6 +4,7 @@ IMAGE_MAIN=`read_package_config "mail-service" "image-main"`
 IMAGE_MYSQL=`read_package_config "mail-service" "image-mysql"`
 IMAGE_REDIS=`read_package_config "mail-service" "image-redis"`
 IMAGE_RABBITMQ=`read_package_config "mail-service" "image-rabbitmq"`
+IMAGE_MAIL_SERVER=`read_package_config "mail-service" "image-server"`
 
 MYSQL_HOST=`read_package_config "mail-service" "mysql_host"`
 MYSQL_PORT=`read_package_config "mail-service" "mysql_port"`
@@ -30,6 +31,7 @@ python replace_param.py "{IMAGE_MAIN}" "${IMAGE_MAIN}" "${YMLFILE}"
 python replace_param.py "{IMAGE_MYSQL}" "${IMAGE_MYSQL}" "${YMLFILE}"
 python replace_param.py "{IMAGE_REDIS}" "${IMAGE_REDIS}" "${YMLFILE}"
 python replace_param.py "{IMAGE_RABBITMQ}" "${IMAGE_RABBITMQ}" "${YMLFILE}"
+python replace_param.py "{IMAGE_MAIL_SERVER}" "${IMAGE_MAIL_SERVER}" "${YMLFILE}"
 
 python replace_param.py "{MYSQL_HOST}" "${MYSQL_HOST}" "${YMLFILE}"
 python replace_param.py "{MYSQL_PORT}" "${MYSQL_PORT}" "${YMLFILE}"

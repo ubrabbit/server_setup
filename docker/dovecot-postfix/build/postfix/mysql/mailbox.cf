@@ -2,4 +2,4 @@ hosts    = {MYSQL_HOST}:{MYSQL_PORT}
 user     = mail
 password = {MYSQL_PASSWORD}
 dbname   = mail
-query    = SELECT mailpath FROM tbl_account WHERE mailbox='%s' AND disabled='-1'
+query    = SELECT mailbox FROM tbl_account WHERE mailbox='%s' AND disabled='-1'

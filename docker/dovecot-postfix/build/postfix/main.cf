@@ -6,7 +6,7 @@ daemon_directory = /usr/local/postfix/libexec
 data_directory = /usr/local/postfix/data
 mail_owner = postfix
 
-myhostname = {HOST_NAME}
+myhostname = {HOSTNAME}
 mydomain = {DOMAIN}
 
 myorigin = {DOMAIN}
